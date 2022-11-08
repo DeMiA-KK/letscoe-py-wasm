@@ -1,0 +1,20 @@
+repos:
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        entry: npx prettier --write --list-different --ignore-unknown
+        language: system
+        types: [text]
+      - id: stylelint
+        name: stylelint
+        entry: npx stylelint
+        language: system
+        types_or: [css, sass, scss]
+        minimum_pre_commit_version: 2.9.0
+      - id: eslint
+        name: eslint
+        entry: npx eslint
+        language: system
+        types_or: [javascript, jsx, ts, tsx]
+        minimum_pre_commit_version: 2.9.0

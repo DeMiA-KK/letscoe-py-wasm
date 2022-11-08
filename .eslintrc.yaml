@@ -1,0 +1,27 @@
+root: true
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:react/recommended
+  - prettier
+plugins:
+  - "@emotion"
+  - import
+rules:
+  "@emotion/no-vanilla": error
+  react/jsx-uses-react: off
+  react/react-in-jsx-scope: off
+  "@typescript-eslint/no-var-requires": "off"
+overrides:
+  - files:
+      - src/**/*.{js,jsx,ts,tsx}
+    rules:
+      import/order:
+        - error
+        - alphabetize:
+            order: asc
+          newlines-between: always
+      react/no-unknown-property:
+        - error
+        - ignore: 
+          - "css"
