@@ -11,6 +11,7 @@ rules:
   "@emotion/no-vanilla": error
   react/jsx-uses-react: off
   react/react-in-jsx-scope: off
+  react/prop-types: off
   "@typescript-eslint/no-var-requires": "off"
 overrides:
   - files:

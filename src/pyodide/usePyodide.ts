@@ -1,22 +1,28 @@
+import { PyodideInterface } from "pyodide"
+import React from "react"
 
-const { loadPyodide } = require("pyodide")
+interface Window {
+    loadPyodide:any
+}
+declare let window: Window
 
-const startPyodide = async (pyodide:any) => {
-    const setupScript = `
-        output_list = []
-        def print(*args, end="\\n" ,sep=" ", file=None, flush=False):
-        output_list.append(sep.join(str(arg) for arg in args))
-    `
-    await pyodide.runPythonAsync(setupScript);
+// const startPyodide = async (pyodide:any) => {
+//     const setupScript = `
+//         output_list = []
+//         def print(*args, end="\\n" ,sep=" ", file=None, flush=False):
+//         output_list.append(sep.join(str(arg) for arg in args))
+//     `
+//     await pyodide.runPythonAsync(setupScript);
+// }
+
+export const runScript = async (pyodide: PyodideInterface, code: string) => {
+    const result = await pyodide.runPython(code);
+    return result;
 }
 
-export const runScript = async (code: string) => {
-    const pyodide = await loadPyodide();
-
-    await startPyodide(pyodide)
-        .catch((err: unknown) => console.log(err))
-    ;
-
-    const result = await pyodide.runPythonAsync(code);
-    return result;
+export const initPyodide = async (setPyodide: React.Dispatch<PyodideInterface>) => {
+    const pyodide = await window.loadPyodide({
+        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.21.3/full"
+    });
+    setPyodide(pyodide);
 }

@@ -2,21 +2,23 @@
 
 import { css } from "@emotion/react";
 import Editor,{ OnChange } from "@monaco-editor/react";
-import React from "react";
+import React ,{ memo } from "react";
 
 type PyEditorProps = {
     onChange: OnChange
 }
 
-export const PyEditor: React.FC<PyEditorProps> = (props) => {
+export const PyEditor: React.FC<PyEditorProps> = memo((props) => {
     return(
         <>
         <Editor
-            // height={"120%"}
+            height={"100%"}
             theme={"vs-dark"}
             defaultLanguage={"python"}
             onChange={props.onChange}
         />
         </>
     )
-}
+})
+
+PyEditor.displayName = "PyEditor";
