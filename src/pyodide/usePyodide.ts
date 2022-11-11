@@ -6,23 +6,33 @@ interface Window {
 }
 declare let window: Window
 
-// const startPyodide = async (pyodide:any) => {
-//     const setupScript = `
-//         output_list = []
-//         def print(*args, end="\\n" ,sep=" ", file=None, flush=False):
-//         output_list.append(sep.join(str(arg) for arg in args))
-//     `
-//     await pyodide.runPythonAsync(setupScript);
-// }
+export const runScript = async (
+        pyodide: PyodideInterface,
+        code: string,
+        setOutput: React.Dispatch<string>
+    ) => {
+    await pyodide.loadPackagesFromImports(code);
 
-export const runScript = async (pyodide: PyodideInterface, code: string) => {
-    const result = await pyodide.runPython(code);
-    return result;
+    const listName = "x" + Math.random().toString(36).substring(2,12);
+    const setupScript = `
+        ${listName} = []
+        def print(*args, end="\\n" ,sep=" ", file=None, flush=False):
+            ${listName}.append(sep.join(str(arg) for arg in args))
+    `;
+    await pyodide.runPython(setupScript);
+
+    await pyodide.runPython(code);
+    const outputList = await pyodide.globals.get(listName);
+    setOutput(outputList);
+
+    await pyodide.runPython(`del ${listName}`);
 }
 
 export const initPyodide = async (setPyodide: React.Dispatch<PyodideInterface>) => {
-    const pyodide = await window.loadPyodide({
+    const pyodide: PyodideInterface = await window.loadPyodide({
         indexURL: "https://cdn.jsdelivr.net/pyodide/v0.21.3/full"
     });
+    await pyodide.loadPackage("micropip");
+
     setPyodide(pyodide);
 }

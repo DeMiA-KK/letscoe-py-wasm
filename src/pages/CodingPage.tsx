@@ -22,8 +22,12 @@ export const CodingPage: React.FC = () => {
     }
 
     const handleRunButtonClick =  async () => {
-        const result = await runScript(pyodide!, script!);
-        setOutput(result);
+        try{
+            await runScript(pyodide!, script!, setOutput);
+        }
+        catch(err){
+            setOutput(String(err));
+        }
     }
 
     const mainStyle: SerializedStyles = css`
