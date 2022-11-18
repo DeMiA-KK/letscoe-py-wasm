@@ -19,7 +19,7 @@ export const CodingPage: React.FC = () => {
 
     const handleEditorChange = (value: string | undefined) => {
         setScript(value);
-    }
+    };
 
     const handleRunButtonClick =  async () => {
         try{
@@ -28,37 +28,38 @@ export const CodingPage: React.FC = () => {
         catch(err){
             setOutput(String(err));
         }
-    }
+    };
 
     const mainStyle: SerializedStyles = css`
         display: flex;
         overflow: hidden;
         flex-direction: column;
         height: 100vh;
-    `
+    `;
+
     const buttonContainerStyle: SerializedStyles = css`
         display: flex;
         width: 100%;
-    `
+    `;
 
     const runButtonStyle: SerializedStyles = css`
-        background-color: "orange"
-    `
+        background-color: "orange";
+    `;
 
     const editorContainerStyle: SerializedStyles = css`
         display: flex;
         flex: 1;
         overflow: hidden;
-    `
+    `;
 
     const editorStyle: SerializedStyles = css`
         width: 50%;
-    `
+    `;
 
     const outputStyle: SerializedStyles = css`
         width: 50%;
         border: solid;
-    `
+    `;
 
     return (
         <div css={mainStyle}>
@@ -70,12 +71,11 @@ export const CodingPage: React.FC = () => {
             <div css={editorContainerStyle}>
                 <div css={editorStyle}>
                     <PyEditor onChange={useCallback(handleEditorChange,[])}/>
-                    {/* <PyEditor onChange={handleEditorChange}/> */}
                 </div>
                 <div css={outputStyle}>
                     <PyConsole output={output}/>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
